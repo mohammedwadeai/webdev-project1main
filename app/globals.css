@@ -31,3 +31,97 @@ body {
     text-wrap: balance;
   }
 }
+/* Assuming CSS-in-JS or external stylesheet */
+@keyframes backgroundShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+header {
+  background-size: 200% 200%;
+  animation: backgroundShift 10s ease infinite;
+}
+/* Basic responsiveness for smaller screens */
+@media (max-width: 768px) {
+  .header {
+      flex-direction: column; /* Stack logo and search bar vertically on small screens */
+      padding: 10px; /* Reduce padding on smaller screens */
+  }
+
+  .header .logo {
+      margin-bottom: 10px; /* Space between logo and search bar */
+  }
+
+  .header h1 {
+      font-size: 24px; /* Smaller font size for the title */
+  }
+}
+
+@media (max-width: 480px) {
+  .header h1 {
+      font-size: 20px; /* Even smaller font size for very small devices */
+  }
+
+  .search-bar input,
+  .search-bar button {
+      font-size: 14px; /* Smaller font size in the search bar elements */
+      padding: 8px; /* Smaller padding for the input and button */
+  }
+}
+/* Adjusting sizes based on the viewport width */
+.responsive-input,
+.responsive-button {
+    font-size: calc(14px + (16 - 14) * ((100vw - 300px) / (1600 - 300)));
+}
+
+@media (max-width: 768px) {
+    .responsive-input,
+    .responsive-button {
+        font-size: 14px; /* Fixed small font size for small devices */
+    }
+}
+/* Responsive grid and card styles */
+@media (max-width: 640px) {
+  .restaurant-card {
+      transform: scale(1);
+      transition: transform 0.3s ease-in-out;
+  }
+}
+
+.restaurant-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.loader {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+/* Animation for modal appearance */
+.animate-scale-up {
+  animation: scale-up 0.3s ease-out forwards;
+}
+
+@keyframes scale-up {
+  0% {
+      transform: scale(0.8);
+      opacity: 0;
+  }
+  100% {
+      transform: scale(1);
+      opacity: 1;
+  }
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 600px) {
+  .modal {
+      width: 90%;
+      max-width: none;
+  }
+}
