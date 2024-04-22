@@ -30,7 +30,11 @@ const fetchRestaurants = async (token = '') => {
         if (data.status !== "OK") {
             throw new Error(`Google Places API Error: ${data.status}`);
         }
+      if(token) {
         setRestaurants(prev => [...prev, ...data.results]);
+      } else {
+        setRestaurants(data.results);
+      }
         setNextPageToken(data.next_page_token || '');
     } catch (error) {
         console.error("Error fetching data:", error);

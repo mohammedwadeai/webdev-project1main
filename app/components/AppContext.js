@@ -18,6 +18,7 @@ export const AppProvider = ({ children }) => {
 
   // Function to update the search term
   const updateSearchTerm = (term) => {
+    console.log("updatesearchterm")
     setSearchTerm(term);
   };
 

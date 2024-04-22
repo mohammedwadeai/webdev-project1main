@@ -3,8 +3,8 @@ import React from 'react';
 import { useAppContext } from './AppContext';  // Make sure the path is correct
 import SearchBar from './SearchBar';
 
-function Header() {
-  const { updateSearchTerm } = useAppContext();
+function Header({onSearch}) {
+  // const { updateSearchTerm } = useAppContext();
 
   return (
     <header className="bg-gray-900 text-white py-4 px-6">
@@ -13,7 +13,7 @@ function Header() {
           <img src="/GourmetHublogo.png" alt="GourmetHub Logo" className="h-10" />
           <h1 className="text-3xl font-bold">GourmetHub</h1>
         </div>
-        <SearchBar onSearch={updateSearchTerm} />
+        <SearchBar onSearch={onSearch} />
       </div>
     </header>
   );

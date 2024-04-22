@@ -22,13 +22,13 @@ function RestaurantList({ searchTerm }) {
         setSelectedRestaurant(restaurant);
         try {
             // Make sure the endpoint matches your API route
-            const response = await fetch(`/api/locations/details?placeId=${restaurant.place_id}`);
+            const response = await fetch(`/api/details?placeId=${restaurant.place_id}`);
             const data = await response.json();
             if (data.error) {
                 console.error('Failed to fetch restaurant details:', data.error);
                 throw new Error(data.error);
             } else {
-                setSelectedRestaurantDetails(data); // Set the detailed data including reviews
+                setSelectedRestaurantDetails(data.result); // Set the detailed data including reviews
             }
         } catch (error) {
             console.error('Network error when fetching restaurant details:', error);

@@ -1,8 +1,10 @@
 // components/Modal.js
 import React from 'react';
+import AddReview from './AddReview';
 
 function Modal({ isOpen, onClose, restaurant }) {
     if (!isOpen || !restaurant) return null;
+
 
     // Ensure you're referencing the correct properties from the restaurant details.
     const { name, rating, reviews, formatted_phone_number } = restaurant;
@@ -34,12 +36,13 @@ function Modal({ isOpen, onClose, restaurant }) {
                         </button>
                     </div>
                     <div className="px-4 py-3 sm:px-6">
+                    <AddReview restaurant={restaurant} />
                         {reviews && reviews.length > 0 ? (
                             <div>
-                                <h4 className="text-lg leading-6 font-medium text-gray-900">Reviews</h4>
+                                <h4 className="text-lg leading-6 font-medium text-gray-900 ">Reviews</h4>
                                 <ul>
                                     {reviews.map((review, index) => (
-                                        <li key={index} className="mt-1">
+                                        <li key={index} className="mt-2">
                                             <p className="text-sm text-gray-600"><strong>{review.author_name}</strong>: {review.text}</p>
                                         </li>
                                     ))}
