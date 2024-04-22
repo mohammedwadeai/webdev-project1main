@@ -29,7 +29,6 @@ function Header({ onSearch }) {
             GourmetHub
           </motion.h1>
         </div>
-        <SearchBar onSearch={onSearch} />
       </div>
     </motion.header>
   );
