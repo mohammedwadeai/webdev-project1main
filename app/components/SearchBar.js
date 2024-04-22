@@ -1,25 +1,32 @@
 // components/SearchBar.js
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useAppContext } from './AppContext';
 
 function SearchBar({ onSearch }) {
   const [searchTerm, setSearchTerm] = useState('');
   const { updateSearchTerm } = useAppContext();
 
-
+  // Function to handle changes in the search input
   const handleSearchChange = (e) => {
-    setSearchTerm(e.target.value);
+    // Sanitize input: remove non-alphanumeric characters and extra spaces
+    const cleanedInput = e.target.value.replace(/[^a-zA-Z0-9 ]/g, "").trim();
+    setSearchTerm(cleanedInput);
+  };
+
+  // Function to handle the submission of the form
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (searchTerm) {
+      console.log("onSubmit", searchTerm);
+      onSearch(searchTerm); // Perform the search operation
+      updateSearchTerm(searchTerm); // Update context with the new search term
+    }
   };
 
   return (
-        <form onSubmit={(e) => {
-      e.preventDefault();
-      console.log("onSubmit", searchTerm)
-      onSearch(searchTerm)
-      updateSearchTerm(searchTerm);
-    }}>
+    <form onSubmit={handleSubmit}>
       <input
         type="text"
         placeholder="Search restaurants..."
