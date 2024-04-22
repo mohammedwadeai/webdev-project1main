@@ -1,7 +1,6 @@
 // components/Sort.js
 "use client";
 
-// components/Sort.js
 import React, { useState } from 'react';
 
 function Sort({ onSortChange }) {
