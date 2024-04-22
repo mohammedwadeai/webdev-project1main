@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import RestaurantCard from './RestaurantCard';
 import Modal from './Modal';
 import Sort from './Sort';
-import useRestaurantData from './useRestaurantData'; // Ensure the path is correct
+import useRestaurantData from './useRestaurantData'; 
 
 function RestaurantList({ searchTerm }) {
     const [selectedRestaurant, setSelectedRestaurant] = useState(null);

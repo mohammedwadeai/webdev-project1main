@@ -1,6 +1,6 @@
 // components/Header.js
 import React from 'react';
-import { useAppContext } from './AppContext';  // Make sure the path is correct
+import { useAppContext } from './AppContext';  
 import SearchBar from './SearchBar';
 
 function Header({onSearch}) {
