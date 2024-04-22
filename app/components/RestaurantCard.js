@@ -6,11 +6,11 @@ function RestaurantCard({ restaurant, onClick }) {
     : '/placeholder.png';
 
     return (
-      <div className="border rounded shadow-lg overflow-hidden cursor-pointer"
+      <div className="border rounded shadow-lg overflow-hidden cursor-pointer transition duration-300 transform hover:-translate-y-1 hover:scale-105"
            onClick={() => onClick(restaurant)}>  
-        <img src={photoUrl} alt={restaurant.name} className="w-full h-64 object-cover" />
+        <img src={photoUrl} alt={restaurant.name} className="w-full h-64 object-cover transition duration-300 transform hover:-translate-y-1 hover:scale-105" />
         <div className="p-4">
-          <h3 className="text-lg font-bold">{restaurant.name}</h3>
+          <h3 className="text-lg font-bold transition duration-300 transform hover:-translate-y-1 hover:scale-105">{restaurant.name}</h3>
           <p>{restaurant.vicinity}</p>
           <p>Rating: {restaurant.rating || 'No rating'}</p>
         </div>
