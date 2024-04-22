@@ -1,4 +1,4 @@
-// api/details.js
+// api/details/route.js
 
 import { NextResponse } from "next/server";
 

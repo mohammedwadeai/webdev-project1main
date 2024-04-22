@@ -10,18 +10,19 @@ function SearchBar({ onSearch }) {
 
   // Function to handle changes in the search input
   const handleSearchChange = (e) => {
-    // Sanitize input: remove non-alphanumeric characters and extra spaces
-    const cleanedInput = e.target.value.replace(/[^a-zA-Z0-9 ]/g, "").trim();
-    setSearchTerm(cleanedInput);
+    // Update the search term directly without sanitizing
+    setSearchTerm(e.target.value);
   };
 
   // Function to handle the submission of the form
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (searchTerm) {
-      console.log("onSubmit", searchTerm);
-      onSearch(searchTerm); // Perform the search operation
-      updateSearchTerm(searchTerm); // Update context with the new search term
+    // Sanitize input before submitting: trim and remove non-alphanumeric characters from the end
+    const cleanedInput = searchTerm.replace(/[^\w\s](?=\s*$)|\s+$/, "").trim();
+    if (cleanedInput) {
+      console.log("onSubmit", cleanedInput);
+      onSearch(cleanedInput); // Perform the search operation
+      updateSearchTerm(cleanedInput); // Update context with the new search term
     }
   };
 
