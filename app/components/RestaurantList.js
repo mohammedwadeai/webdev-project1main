@@ -47,10 +47,10 @@ function RestaurantList({ searchTerm }) {
     };
 
     return (
-        <div className="container mx-auto p-4">
+        <div>
             <Sort onSortChange={updateSortCriteria} />
-            {error && <p className="text-red-600 bg-red-100 rounded p-3 my-2">Error: {error}</p>}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 my-5">
+            {error && <p className="text-red-500">Error: {error}</p>}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                 {filteredRestaurants.map(restaurant => (
                     <RestaurantCard
                         key={restaurant.place_id}
@@ -58,11 +58,11 @@ function RestaurantList({ searchTerm }) {
                         onClick={() => handleRestaurantClick(restaurant)}
                     />
                 ))}
-                {filteredRestaurants.length === 0 && !loading && <p className="text-center">No restaurants found.</p>}
+                {filteredRestaurants.length === 0 && !loading && <p>No restaurants found.</p>}
             </div>
-            {loading && <div className="text-center"><div className="loader">Loading...</div></div>}
+            {loading && <p>Loading...</p>}
             {nextPageToken && !loading && (
-                <button onClick={handleLoadMore} className="block mx-auto mt-4 py-2 px-6 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300">
+                <button onClick={handleLoadMore} className="mt-4 p-2 bg-blue-500 text-white rounded hover:bg-blue-700">
                     Load More Restaurants
                 </button>
             )}
@@ -70,6 +70,5 @@ function RestaurantList({ searchTerm }) {
         </div>
     );
 }
-
 
 export default RestaurantList;

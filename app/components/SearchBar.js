@@ -10,6 +10,7 @@ function SearchBar({ onSearch }) {
 
   // Function to handle changes in the search input
   const handleSearchChange = (e) => {
+    // Update the search term directly without sanitizing
     setSearchTerm(e.target.value);
   };
 
@@ -26,22 +27,15 @@ function SearchBar({ onSearch }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex">
+    <form onSubmit={handleSubmit}>
       <input
-          type="text"
-          placeholder="Search restaurants..."
-          value={searchTerm}
-          onChange={handleSearchChange}
-          className="p-2 text-gray-700 flex-grow rounded-l-full focus:outline-none focus:ring-2 focus:ring-teal-400 transition duration-300 responsive-input"
+        type="text"
+        placeholder="Search restaurants..."
+        value={searchTerm}
+        onChange={handleSearchChange}
+        className="p-2 text-gray-700"
       />
-
-      <button
-          type="submit"
-          className="p-2 bg-gray-400 text-white rounded-r-full hover:bg-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-400 transition duration-300 responsive-button"
-      >
-          Search
-      </button>
-
+      <button type="submit" className="p-2 bg-blue-500 text-white rounded">Search</button>
     </form>
   );
 }
