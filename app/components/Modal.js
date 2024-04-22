@@ -4,18 +4,18 @@ import { motion, AnimatePresence } from 'framer-motion';
 import AddReview from './AddReview';
 
 function Modal({ isOpen, onClose, restaurant }) {
-    if (!isOpen || !restaurant) return null;
+    
 
     // Use local state to handle newly added reviews along with existing ones
-    const [localReviews, setLocalReviews] = useState([...(restaurant.reviews || [])]);
-
+    const [localReviews, setLocalReviews] = useState(!restaurant?[]:[...(restaurant.reviews || [])]);
+    
     // Function to add a new review to the state
     const handleAddReview = (newReview) => {
         setLocalReviews(prevReviews => [newReview, ...prevReviews]);
     };
 
-    const { name, rating, formatted_phone_number } = restaurant;
-
+    const { name = '', rating = 'No rating available', formatted_phone_number = '' } = restaurant || {};
+    if (!isOpen || !restaurant) return null;
     return (
         <div className="fixed inset-0 z-30 overflow-y-auto" aria-labelledby="modal-headline" aria-modal="true">
             <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
