@@ -1,26 +1,34 @@
 // components/SearchBar.js
+"use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 function SearchBar({ onSearch }) {
   const [searchTerm, setSearchTerm] = useState('');
 
-  const handleInputChange = (event) => {
-    const term = event.target.value;
-    setSearchTerm(term);
-    onSearch(term);  // This function will be passed from the parent component
+  useEffect(() => {
+    const delayDebounce = setTimeout(() => {
+      onSearch(searchTerm);
+    }, 300); // Adds a debounce delay of 300ms
+
+    return () => clearTimeout(delayDebounce);
+  }, [searchTerm, onSearch]);
+
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
   };
 
   return (
-    <div className="search-bar">
+    <form onSubmit={(e) => e.preventDefault()}>
       <input
         type="text"
-        placeholder="Search for restaurants..."
+        placeholder="Search restaurants..."
         value={searchTerm}
-        onChange={handleInputChange}
-        className="border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none"
+        onChange={handleSearchChange}
+        className="p-2 text-gray-700"
       />
-    </div>
+      <button type="submit" className="p-2 bg-blue-500 text-white rounded">Search</button>
+    </form>
   );
 }
 

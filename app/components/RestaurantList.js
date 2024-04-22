@@ -1,46 +1,72 @@
+// components/RestaurantList.js
 "use client";
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import RestaurantCard from './RestaurantCard';
+import Modal from './Modal';
+import Sort from './Sort';
+import useRestaurantData from './useRestaurantData'; // Ensure the path is correct
 
-function RestaurantList() {
-    const [restaurants, setRestaurants] = useState([]);
-    const [error, setError] = useState(null);
+function RestaurantList({ searchTerm }) {
+    const [selectedRestaurant, setSelectedRestaurant] = useState(null);
+    const [selectedRestaurantDetails, setSelectedRestaurantDetails] = useState(null);
+    const {
+        filteredRestaurants,
+        loading,
+        error,
+        nextPageToken,
+        fetchRestaurants,
+        updateSortCriteria
+    } = useRestaurantData(searchTerm);
 
-    useEffect(() => {
-        const location = "51.0447,-114.0719"; // Coordinates for Calgary
-        const radius = 5000; // Search radius in meters
-        const type = 'restaurant'; // Type of places to search for
-        const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY; // API key stored in environment variables
-        const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${location}&radius=${radius}&type=${type}&key=${apiKey}`;
-
-        const fetchRestaurants = async () => {
-            try {
-                const response = await fetch(url);
-                const data = await response.json();
-                if (data.status !== "OK") {
-                    throw new Error(`Google Places API Error: ${data.status}`);
-                }
-                setRestaurants(data.results);
-            } catch (error) {
-                setError(error.message);
-                console.error("Error fetching data:", error);
+    const handleRestaurantClick = async (restaurant) => {
+        setSelectedRestaurant(restaurant);
+        try {
+            // Make sure the endpoint matches your API route
+            const response = await fetch(`/api/locations/details?placeId=${restaurant.place_id}`);
+            const data = await response.json();
+            if (data.error) {
+                console.error('Failed to fetch restaurant details:', data.error);
+                throw new Error(data.error);
+            } else {
+                setSelectedRestaurantDetails(data); // Set the detailed data including reviews
             }
-        };
+        } catch (error) {
+            console.error('Network error when fetching restaurant details:', error);
+        }
+    };
 
-        fetchRestaurants();
-    }, []);
+    const handleCloseModal = () => {
+        setSelectedRestaurant(null);
+        setSelectedRestaurantDetails(null); // Clear the detailed data
+    };
+
+    const handleLoadMore = () => {
+        if (nextPageToken) {
+            fetchRestaurants(nextPageToken);
+        }
+    };
 
     return (
         <div>
-            <h2 className="mb-5 text-2xl font-bold text-gray-700">Featured Restaurants in Calgary</h2>
+            <Sort onSortChange={updateSortCriteria} />
             {error && <p className="text-red-500">Error: {error}</p>}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                {restaurants.length > 0 ? restaurants.map(restaurant => (
-                    <RestaurantCard key={restaurant.place_id} restaurant={restaurant} />
-                )) : (
-                    !error && <p className="text-gray-600">No restaurants found.</p>
-                )}
+                {filteredRestaurants.map(restaurant => (
+                    <RestaurantCard
+                        key={restaurant.place_id}
+                        restaurant={restaurant}
+                        onClick={() => handleRestaurantClick(restaurant)}
+                    />
+                ))}
+                {filteredRestaurants.length === 0 && !loading && <p>No restaurants found.</p>}
             </div>
+            {loading && <p>Loading...</p>}
+            {nextPageToken && !loading && (
+                <button onClick={handleLoadMore} className="mt-4 p-2 bg-blue-500 text-white rounded hover:bg-blue-700">
+                    Load More Restaurants
+                </button>
+            )}
+            <Modal isOpen={!!selectedRestaurant} onClose={handleCloseModal} restaurant={selectedRestaurantDetails} />
         </div>
     );
 }
